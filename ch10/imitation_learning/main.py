@@ -2,8 +2,8 @@ import os
 
 import torch
 
-from ch10.behavioral_cloning.nn_agent import nn_agent_play
-from ch10.behavioral_cloning.train import \
+from ch10.imitation_learning.nn_agent import nn_agent_play
+from ch10.imitation_learning.train import \
     DATA_DIR, \
     MODEL_FILE, \
     build_network, \

@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from ch10.behavioral_cloning.util import \
+from ch10.imitation_learning.util import \
     available_actions, \
     data_transform, \
     DATA_DIR, \

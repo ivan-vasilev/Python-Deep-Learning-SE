@@ -7,7 +7,7 @@ import gym
 import numpy as np
 import torch
 
-from ch10.behavioral_cloning.train \
+from ch10.imitation_learning.train \
     import \
     data_transform, \
     available_actions, \
