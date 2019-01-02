@@ -3,23 +3,25 @@ import os
 import pickle
 import random
 
-import gym
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchsummary import summary
 
-from ch10.behavioral_cloning.util import available_actions, data_transform
+from ch10.behavioral_cloning.util import \
+    available_actions, \
+    data_transform, \
+    DATA_DIR, \
+    DATA_FILE, \
+    MODEL_FILE
 
-BATCH_SIZE = 32
-DATA_DIR = 'data'
-DATA_FILE = 'data.gzip'
-MODEL_FILE = 'model.pt'
-EPOCHS = 30
-TRAIN_VAL_SPLIT = 0.85
+restore = False  # restore from file if exists
+BATCH_SIZE = 32  # mb size
+EPOCHS = 30  # number of epochs
+TRAIN_VAL_SPLIT = 0.85  # train/val ratio
 
-MULTIPLY_RARE_EVENTS = 30
+# balance the dataset by multiplying rare events
+MULTIPLY_RARE_EVENTS = 20
 
 
 def read_data():
@@ -52,14 +54,21 @@ def read_data():
     # drop non-actions
     states = np.array(states)
     states = states[act_classes != -1]
+    act_classes = act_classes[act_classes != -1]
 
     # drop some of the acceleration actions to balance the dataset
-    act_classes = act_classes[act_classes != -1]
     non_accel = act_classes != available_actions.index([0, 1, 0])
     drop_mask = np.random.rand(act_classes[~non_accel].size) > 0.7
     non_accel[~non_accel] = drop_mask
     states = states[non_accel]
     act_classes = act_classes[non_accel]
+
+    # drop some of the non-action actions to balance the dataset
+    non_act = act_classes != available_actions.index([0, 0, 0])
+    drop_mask = np.random.rand(act_classes[~non_act].size) > 0.3
+    non_act[~non_act] = drop_mask
+    states = states[non_act]
+    act_classes = act_classes[non_act]
 
     for i, a in enumerate(available_actions):
         print("Actions of type {}: {}"
@@ -68,9 +77,6 @@ def read_data():
     print("Total transitions: " + str(len(act_classes)))
 
     return states, act_classes
-
-
-read_data()
 
 
 def create_datasets():
@@ -222,15 +228,14 @@ def test(model, device, loss_function, data_loader):
     total_loss = current_loss / len(data_loader.dataset)
     total_acc = current_acc.double() / len(data_loader.dataset)
 
-    print('Test Loss: {:.4f}; Accuracy: {:.4f}'.format(total_loss, total_acc))
+    print('Test Loss: {:.4f}; Accuracy: {:.4f}'
+          .format(total_loss, total_acc))
 
 
 def train(model, device):
     """
     Training main method
     """
-
-    summary(model, (1, 84, 84))
 
     loss_function = nn.CrossEntropyLoss()
 
@@ -242,9 +247,27 @@ def train(model, device):
     for epoch in range(EPOCHS):
         print('Epoch {}/{}'.format(epoch + 1, EPOCHS))
 
-        train_epoch(model, device, loss_function, optimizer, train_loader)
+        train_epoch(model,
+                    device,
+                    loss_function,
+                    optimizer,
+                    train_loader)
+
         test(model, device, loss_function, val_order)
 
         # save model
         model_path = os.path.join(DATA_DIR, MODEL_FILE)
         torch.save(model.state_dict(), model_path)
+
+
+if __name__ == '__main__':
+    dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    m = build_network()
+
+    if restore:
+        model_path = os.path.join(DATA_DIR, MODEL_FILE)
+        m.load_state_dict(torch.load(model_path))
+
+    m.eval()
+    m = m.to(dev)
+    train(m, dev)

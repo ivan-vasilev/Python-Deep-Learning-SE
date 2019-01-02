@@ -1,5 +1,9 @@
 from torchvision import transforms
 
+DATA_DIR = 'data'
+DATA_FILE = 'data.gzip'
+MODEL_FILE = 'model.pt'
+
 # available actions
 available_actions = [[0, 0, 0],  # no action
                      [-1, 0, 0],  # left
