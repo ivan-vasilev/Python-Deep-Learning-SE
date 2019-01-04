@@ -16,7 +16,11 @@ from ch10.imitation_learning.train \
 
 
 def nn_agent_play(model, device):
-    """Let the agent play"""
+    """
+    Let the agent play
+    :param model: the network
+    :param device: the cuda device
+    """
 
     env = gym.make('CarRacing-v0')
 

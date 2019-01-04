@@ -112,18 +112,18 @@ def create_datasets():
                                                num_workers=2)
 
     # test dataset
-    x_test, y_test = x[int(len(x_train)):], y[int(len(y_train)):]
+    x_val, y_val = x[int(len(x_train)):], y[int(len(y_train)):]
 
-    test_set = TensorDatasetTransforms(
-        torch.tensor(x_test),
-        torch.tensor(y_test))
+    val_set = TensorDatasetTransforms(
+        torch.tensor(x_val),
+        torch.tensor(y_val))
 
-    val_order = torch.utils.data.DataLoader(test_set,
-                                            batch_size=BATCH_SIZE,
-                                            shuffle=False,
-                                            num_workers=2)
+    val_loader = torch.utils.data.DataLoader(val_set,
+                                             batch_size=BATCH_SIZE,
+                                             shuffle=False,
+                                             num_workers=2)
 
-    return train_loader, val_order
+    return train_loader, val_loader
 
 
 def build_network():
@@ -161,6 +161,36 @@ def build_network():
     )
 
     return model
+
+
+def train(model, device):
+    """
+    Training main method
+    :param model: the network
+    :param device: the cuda device
+    """
+
+    loss_function = nn.CrossEntropyLoss()
+
+    optimizer = optim.Adam(model.parameters())
+
+    train_loader, val_order = create_datasets()  # read datasets
+
+    # train
+    for epoch in range(EPOCHS):
+        print('Epoch {}/{}'.format(epoch + 1, EPOCHS))
+
+        train_epoch(model,
+                    device,
+                    loss_function,
+                    optimizer,
+                    train_loader)
+
+        test(model, device, loss_function, val_order)
+
+        # save model
+        model_path = os.path.join(DATA_DIR, MODEL_FILE)
+        torch.save(model.state_dict(), model_path)
 
 
 def train_epoch(model, device, loss_function, optimizer, data_loader):
@@ -230,34 +260,6 @@ def test(model, device, loss_function, data_loader):
 
     print('Test Loss: {:.4f}; Accuracy: {:.4f}'
           .format(total_loss, total_acc))
-
-
-def train(model, device):
-    """
-    Training main method
-    """
-
-    loss_function = nn.CrossEntropyLoss()
-
-    optimizer = optim.Adam(model.parameters())
-
-    train_loader, val_order = create_datasets()  # read datasets
-
-    # train
-    for epoch in range(EPOCHS):
-        print('Epoch {}/{}'.format(epoch + 1, EPOCHS))
-
-        train_epoch(model,
-                    device,
-                    loss_function,
-                    optimizer,
-                    train_loader)
-
-        test(model, device, loss_function, val_order)
-
-        # save model
-        model_path = os.path.join(DATA_DIR, MODEL_FILE)
-        torch.save(model.state_dict(), model_path)
 
 
 if __name__ == '__main__':
