@@ -110,31 +110,6 @@ def test_model(model, loss_function, data_loader):
     print('Test Loss: {:.4f}; Accuracy: {:.4f}'.format(total_loss, total_acc))
 
 
-def tl_fine_tuning(epochs=3):
-    # load the pre-trained model
-    model = models.resnet18(pretrained=True)
-
-    # replace the last layer
-    num_features = model.fc.in_features
-    model.fc = nn.Linear(num_features, 10)
-
-    # transfer the model to the GPU
-    model = model.to(device)
-
-    # loss function
-    loss_function = nn.CrossEntropyLoss()
-
-    # We'll optimize all parameters
-    optimizer = optim.Adam(model.parameters())
-
-    # train
-    for epoch in range(epochs):
-        print('Epoch {}/{}'.format(epoch + 1, epochs))
-
-        train_model(model, loss_function, optimizer, train_loader)
-        test_model(model, loss_function, val_order)
-
-
 def tl_feature_extractor(epochs=3):
     # load the pre-trained model
     model = torchvision.models.resnet18(pretrained=True)
@@ -164,5 +139,31 @@ def tl_feature_extractor(epochs=3):
         test_model(model, loss_function, val_order)
 
 
-tl_feature_extractor(5)
-#tl_fine_tuning(5)
+def tl_fine_tuning(epochs=3):
+    # load the pre-trained model
+    model = models.resnet18(pretrained=True)
+
+    # replace the last layer
+    num_features = model.fc.in_features
+    model.fc = nn.Linear(num_features, 10)
+
+    # transfer the model to the GPU
+    model = model.to(device)
+
+    # loss function
+    loss_function = nn.CrossEntropyLoss()
+
+    # We'll optimize all parameters
+    optimizer = optim.Adam(model.parameters())
+
+    # train
+    for epoch in range(epochs):
+        print('Epoch {}/{}'.format(epoch + 1, epochs))
+
+        train_model(model, loss_function, optimizer, train_loader)
+        test_model(model, loss_function, val_order)
+
+
+if __name__ == '__main__':
+    tl_feature_extractor(epochs=5)
+    #tl_fine_tuning(epochs=5)

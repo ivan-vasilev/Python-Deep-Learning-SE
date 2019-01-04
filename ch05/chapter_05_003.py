@@ -103,7 +103,7 @@ for i in ids:
     cv2.rectangle(image, (round(x), round(y)), (round(x + w), round(y + h)), color, 2)
 
     label = "%s: %.2f" % (classes[class_id], confidences[i])
-    cv2.putText(image, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+    cv2.putText(image, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
 
 cv2.imshow("Object detection", image)
 cv2.waitKey()

@@ -22,14 +22,14 @@ def forward(x, U, W):
     return s
 
 
-def backward(x, s, targets, W):
+def backward(x, s, y, W):
     sequence_length = len(x[0])
 
     # The network output is just the last activation of sequence
-    y = s[:, -1]
+    s_t = s[:, -1]
 
     # Compute the gradient of the output w.r.t. MSE cost function at final state
-    gS = 2 * (y - targets)
+    gS = 2 * (s_t - y)
 
     # Set the gradient accumulations to 0
     gU, gW = 0, 0
@@ -46,7 +46,9 @@ def backward(x, s, targets, W):
     return gU, gW
 
 
-def train(x, targets, epochs, learning_rate=0.0005):
+def train(x, y, epochs, learning_rate=0.0005):
+    """Train the network"""
+
     # Set initial parameters
     weights = (-2, 0)  # (U, W)
 
@@ -60,13 +62,16 @@ def train(x, targets, epochs, learning_rate=0.0005):
         # Perform forward and backward pass to get the gradients
         s = forward(x, weights[0], weights[1])
 
+        # Compute the loss
+        loss = (y[0] - s[-1, -1]) ** 2
+
         # Store the loss and weights values for later display
-        losses.append((targets[0] - s[-1, -1]) ** 2)
+        losses.append(loss)
 
         weights_u.append(weights[0])
         weights_w.append(weights[1])
 
-        gradients = backward(x, s, targets, weights[1])
+        gradients = backward(x, s, y, weights[1])
 
         # Update each parameter `p` by p = p - (gradient * learning_rate).
         # `gp` is the gradient of parameter `p`
@@ -109,11 +114,14 @@ def plot_training(losses, weights_u, weights_w):
     plt.show()
 
 
+# Use these inputs for normal training
+# The first dimension represents the mini-batch
 x = np.array([[0, 0, 0, 0, 1, 0, 1, 0, 1, 0]])
-targets = np.array([3])
+y = np.array([3])
 
-x = np.array([[0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0]])
-targets = np.array([12])
+# Use these inputs to reproduce the exploding gradients scenario
+# x = np.array([[0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0]])
+# y = np.array([12])
 
-losses, weights_u, weights_w = train(x, targets, epochs=150)
+losses, weights_u, weights_w = train(x, y, epochs=150)
 plot_training(losses, weights_u, weights_w)
