@@ -9,7 +9,7 @@ import time
 import gym
 import numpy as np
 
-from ch10.imitation_learning.util import DATA_DIR, DATA_FILE
+from util import DATA_DIR, DATA_FILE
 
 
 def key_press(key, mod):

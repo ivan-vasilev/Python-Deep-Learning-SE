@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from ch10.imitation_learning.util import \
+from util import \
     available_actions, \
     data_transform, \
     DATA_DIR, \
@@ -51,7 +51,7 @@ def read_data():
     for i, a in enumerate(available_actions):
         act_classes[np.all(actions == a, axis=1)] = i
 
-    # drop non-actions
+    # drop unsupported actions
     states = np.array(states)
     states = states[act_classes != -1]
     act_classes = act_classes[act_classes != -1]
