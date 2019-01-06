@@ -63,6 +63,8 @@ model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+print("CIFAR-10 with Keras convolutional network")
+
 print(model.summary())
 
 model.fit_generator(

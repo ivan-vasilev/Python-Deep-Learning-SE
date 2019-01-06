@@ -29,6 +29,8 @@ net = torch.nn.Sequential(
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
 
+print("Classifying the IRIS dataset with a PyTorch neural network")
+
 # train
 epochs = 50
 

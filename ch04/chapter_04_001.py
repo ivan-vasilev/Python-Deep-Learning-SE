@@ -52,14 +52,22 @@ image_rgb = np.asarray(Image.open(BytesIO(resp.content)).convert("RGB"))
 image_grayscale = np.mean(image_rgb, axis=2, dtype=np.uint)
 
 # blur filter
+
+print("Blur with convolution operation...")
+
 blur = np.full([10, 10], 1. / 100)
 conv(image_grayscale, blur)
 
 # sobel filters
+
+print("Horizontal Sobel filter with convolution operation...")
+
 sobel_x = [[-1, -2, -1],
            [0, 0, 0],
            [1, 2, 1]]
 conv(image_grayscale, sobel_x)
+
+print("Vertical Sobel filter with convolution operation...")
 
 sobel_y = [[-1, 0, 1],
            [-2, 0, 2],

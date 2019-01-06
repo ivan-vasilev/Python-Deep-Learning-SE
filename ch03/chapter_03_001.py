@@ -17,6 +17,8 @@ batch_size = 100
 hidden_neurons = 100
 epochs = 100
 
+print("Classifying MNIST with a fully-connected Keras network with one hidden layer")
+
 model = Sequential([
     Dense(hidden_neurons, input_dim=input_size),
     Activation('sigmoid'),

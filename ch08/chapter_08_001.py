@@ -173,4 +173,6 @@ def q_learning():
     plt.show()
 
 
-q_learning()
+if __name__ == '__main__':
+    print("Cart-pole agent with Q-learning, OpenAI gym, and TensorFlow")
+    q_learning()

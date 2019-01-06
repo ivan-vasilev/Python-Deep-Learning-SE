@@ -101,6 +101,8 @@ plot_y = []
 
 critic_costs = deque(maxlen=10)
 
+print("Atari Breakout agent DQN, OpenAI gym, and TensorFlow")
+
 while True:
     env.render()
     last_action = choose_next_action(last_state)

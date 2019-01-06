@@ -413,6 +413,8 @@ def deep_q_learning():
 
 
 if __name__ == '__main__':
+    print("Cart-pole agent with A2C, OpenAI gym, and TensorFlow")
+
     session, q_network, t_network, t_net_updates, frame_proc, saver, train_op, env = \
         initialize()
     deep_q_learning()

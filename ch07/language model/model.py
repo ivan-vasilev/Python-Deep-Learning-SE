@@ -215,6 +215,8 @@ def train_and_sample(minibatch_iterations, restore):
 
 
 def main():
+    print("Generating new text with character-level TensorFlow LSTM")
+
     total_iterations = 500
     print('\n\n\nTrain for {}'.format(500))
     print('Total iters: {}'.format(total_iterations))

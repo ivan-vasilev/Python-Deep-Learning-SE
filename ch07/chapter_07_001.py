@@ -123,5 +123,7 @@ y = np.array([3])
 # x = np.array([[0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0]])
 # y = np.array([12])
 
+print("Sum of ones RNN from scratch")
+
 losses, weights_u, weights_w = train(x, y, epochs=150)
 plot_training(losses, weights_u, weights_w)

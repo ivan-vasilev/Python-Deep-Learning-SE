@@ -148,6 +148,8 @@ class NeuralNetwork:
 
 
 if __name__ == '__main__':
+    print("XOR classifying neural network from scratch")
+
     numpy.random.seed(0)
 
     # Initialize the NeuralNetwork with 2 input, 2 hidden, and 1 output neurons

@@ -3,6 +3,8 @@ import cv2  # opencv import
 import numpy as np
 import requests
 
+print("YOLO-V3 object detection")
+
 # Download YOLO net config file
 # We'll it from the YOLO author's github repo
 yolo_config = 'yolov3.cfg'

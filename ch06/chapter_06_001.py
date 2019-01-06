@@ -162,6 +162,8 @@ def plot_generated_images(decoder):
 
 
 if __name__ == '__main__':
+    print("VAE for new MNIST images with Keras")
+
     encoder, decoder, vae = build_vae()
 
     vae.compile(optimizer='adam')
