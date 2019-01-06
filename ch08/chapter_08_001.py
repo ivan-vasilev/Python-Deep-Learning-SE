@@ -119,7 +119,12 @@ def q_learning():
     # Initial chance to select random action
     rand_action_prob = 1.0
 
-    while episode <= 600:
+    while episode <= 500:
+        # render the cart pole on the screen
+        # comment this for faster execution
+        if episode > 400:
+            env.render()
+
         # select action following the policy
         last_action = choose_next_action(last_state, rand_action_prob)
 
@@ -141,10 +146,6 @@ def q_learning():
         # only train if done observing
         min_experience_replay_size = 5000
         if len(observations) > min_experience_replay_size:
-            # render the cart pole on the screen
-            # comment this for faster execution
-            env.render()
-
             # mini-batch of 128 from the experience replay observations
             mini_batch = random.sample(observations, 128)
 
