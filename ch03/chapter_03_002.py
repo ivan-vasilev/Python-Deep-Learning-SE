@@ -3,7 +3,7 @@ from keras.layers.core import Dense, Activation
 from keras.models import Sequential
 from keras.utils import np_utils
 
-print("Classifying MNIST with a fully-connected Keras network with 3 hidden layers")
+print("Classifying CIFAR-10 with a fully-connected Keras network with 3 hidden layers")
 
 (X_train, Y_train), (X_test, Y_test) = cifar10.load_data()
 
