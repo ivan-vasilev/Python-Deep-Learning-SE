@@ -103,8 +103,11 @@ critic_costs = deque(maxlen=10)
 
 print("Atari Breakout agent DQN, OpenAI gym, and TensorFlow")
 
-while True:
-    env.render()
+while games < 500:
+    # comment for faster training
+    if games > 300:
+        env.render()
+
     last_action = choose_next_action(last_state)
     current_state, reward, terminal, info = env.step(np.argmax(last_action))
     total_reward += reward
