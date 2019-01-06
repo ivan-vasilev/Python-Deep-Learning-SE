@@ -111,8 +111,6 @@ def test_model(model, loss_function, data_loader):
 
 
 def tl_feature_extractor(epochs=3):
-    print("Transfer learning: feature extractor with PyTorch ResNet18 network for CIFAR-10")
-
     # load the pre-trained model
     model = torchvision.models.resnet18(pretrained=True)
 
@@ -142,8 +140,6 @@ def tl_feature_extractor(epochs=3):
 
 
 def tl_fine_tuning(epochs=3):
-    print("Transfer learning: fine tuning with PyTorch ResNet18 network for CIFAR-10")
-
     # load the pre-trained model
     model = models.resnet18(pretrained=True)
 
@@ -169,5 +165,17 @@ def tl_fine_tuning(epochs=3):
 
 
 if __name__ == '__main__':
-    tl_feature_extractor(epochs=5)
-    #tl_fine_tuning(epochs=5)
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Transfer learning with feature extraction or fine tuning")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-fe', action='store_true', help="Feature extraction")
+    group.add_argument('-ft', action='store_true', help="Fine tuning")
+    args = parser.parse_args()
+
+    if args.ft:
+        print("Transfer learning: fine tuning with PyTorch ResNet18 network for CIFAR-10")
+        tl_fine_tuning(epochs=5)
+    else:
+        print("Transfer learning: feature extractor with PyTorch ResNet18 network for CIFAR-10")
+        tl_feature_extractor(epochs=5)

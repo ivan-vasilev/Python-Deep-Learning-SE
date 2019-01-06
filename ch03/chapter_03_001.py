@@ -3,6 +3,8 @@ from keras.layers.core import Dense, Activation
 from keras.models import Sequential
 from keras.utils import np_utils
 
+print("Classifying MNIST with a fully-connected Keras network with one hidden layer")
+
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 
 X_train = X_train.reshape(60000, 784)
@@ -16,8 +18,6 @@ input_size = 784
 batch_size = 100
 hidden_neurons = 100
 epochs = 100
-
-print("Classifying MNIST with a fully-connected Keras network with one hidden layer")
 
 model = Sequential([
     Dense(hidden_neurons, input_dim=input_size),

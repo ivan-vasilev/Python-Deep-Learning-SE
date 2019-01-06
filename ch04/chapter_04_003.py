@@ -5,6 +5,8 @@ from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 
+print("CIFAR-10 with Keras convolutional network")
+
 batch_size = 50
 
 (X_train, Y_train), (X_test, Y_test) = cifar10.load_data()
@@ -62,8 +64,6 @@ model.add(Flatten())
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-print("CIFAR-10 with Keras convolutional network")
 
 print(model.summary())
 

@@ -14,6 +14,8 @@ from keras.layers import Flatten
 
 from keras.utils import np_utils
 
+print("MNIST with Keras convolutional network")
+
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 
 X_train = X_train.reshape(60000, 28, 28, 1)
@@ -21,8 +23,6 @@ X_test = X_test.reshape(10000, 28, 28, 1)
 
 Y_train = np_utils.to_categorical(Y_train, 10)
 Y_test = np_utils.to_categorical(Y_test, 10)
-
-print("MNIST with Keras convolutional network")
 
 model = Sequential([
     Convolution2D(filters=32,
