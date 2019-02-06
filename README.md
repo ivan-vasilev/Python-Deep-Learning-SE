@@ -34,8 +34,8 @@ This book is for data science practitioners, machine learning engineers, and tho
 With the following software and hardware list you can run all code files present in the book (Chapter 1-10).
 ### Software and Hardware List
 | Chapter | Software required | OS required |
-| -------- | ------------------------------------ | ----------------------------------- |
-| All | Python 3.6, Anaconda 5.2, Jupyter Notebook | Windows, Mac OS X, and Linux (Any) |
+| -------- | --------------------------------------- | ----------------------------------- |
+| All | Python 3.6, PyTorch (1.0), TensorFlow (1.12) | Windows, Mac OS X, and Linux (Any) |
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781789348460_ColorImages.pdf).
 
