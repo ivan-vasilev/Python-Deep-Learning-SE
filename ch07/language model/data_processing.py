@@ -18,6 +18,7 @@ with codecs.open(filepath, encoding='utf-8', mode='r') as f_input:
 # Cleanup
 book_str = NEW_LINE_IN_PARAGRAPH_REGEX.sub('\g<1> \g<2>', book_str)
 book_str = MULTIPLE_NEWLINES_REGEX.sub('\n\n', book_str)
+book_str = re.sub(u'[\u201c\u201d]', '"', book_str)
 
 # Write proccessed text to file
 with codecs.open(out_file, encoding='utf-8', mode='w')as f_output:
