@@ -207,9 +207,9 @@ def train_and_sample(minibatch_iterations, restore):
             sess, prime_string=u'\n\nCHAPTER X\n\n',
             sample_length=500)
         print(u'sample: \n{}'.format(sample))
-        print('\nSample 5:')
+        print('\nSample 6:')
         sample = model.sample(
-            sess, prime_string=u'"If only you knew,"',
+            sess, prime_string=u'\"If only you knew,\"',
             sample_length=500)
         print(u'sample: \n{}'.format(sample))
 
